@@ -120,6 +120,10 @@ app.post('/cookie',function(req,res){
     console.log(req.body)
     res.send(true)
 })
+app.post('/cookieLogin',function(req,res){
+    console.log(req.body)
+    res.json('yes')
+})
 
 app.get('/123',function(req,res){
     console.log(req.query)
