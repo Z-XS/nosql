@@ -9,7 +9,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
   //   if(err) throw err
   //   console.log('success')
   // })
-  //插入数据,单条insertOne，多条insertMany
+  // 插入数据,单条insertOne，多条insertMany
   // const obj = {name: '温度范围', get: 11}
   // const arr = [
   //   {name: '小红', password: '852963'},
@@ -32,6 +32,10 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
   // dbo.collection('site').find({},function(err,res){
   //   console.log(res)
   //   })
+  // (>) 大于 - $gt
+  // (<) 小于 - $lt
+  // (>=) 大于等于 - $gte
+  // (<= ) 小于等于 - $lte
   // const wherestr = {"name":'XD'}
   // dbo.collection('site').find(wherestr).toArray(function(err,res) {
   //   if (err) throw err
@@ -55,16 +59,16 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
   // dbo.collection('site').update({}, {$set: {get: 'getters'}}, {multi: true},function(err,res){
   //   console.log(res)
   // })
-//   update命令
-// update命令格式：
-// db.collection.update(criteria,objNew,upsert,multi)
-// 参数说明：
-// criteria：查询条件
-// objNew：update对象和一些更新操作符
-// upsert：如果不存在update的记录，是否插入objNew这个新的文档，true为插入，默认为false，不插入。
-// multi：默认是false，只更新找到的第一条记录。如果为true，把按条件查询出来的记录全部更新。
-// 删除字段
-  dbo.collection('site').update({},{$unset:{'pass': ''}}, {multi: true})
+  //   update命令
+  // update命令格式：
+  // db.collection.update(criteria,objNew,upsert,multi)
+  // 参数说明：
+  // criteria：查询条件
+  // objNew：update对象和一些更新操作符
+  // upsert：如果不存在update的记录，是否插入objNew这个新的文档，true为插入，默认为false，不插入。
+  // multi：默认是false，只更新找到的第一条记录。如果为true，把按条件查询出来的记录全部更新。
+  // 删除字段
+  // dbo.collection('site').update({},{$unset:{'pass': ''}}, {multi: true})
   // 删除一条(deleteOne)/多条数据(deleteMany)
   // const deletestr = {name: '温度范围'}
   // dbo.collection('site').deleteOne(deletestr,function(err,res){
@@ -98,11 +102,17 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
   // ]).toArray(function(err,res){
   //   console.log(res)
   // })
+
+  dbo.collection('site').aggregate([{$limit:5},{$group: {_id: null,sum:{$sum: "$get"}}}]).toArray(function(err,res){
+    console.log(res)
+  })
   // drop() 方法来删除集合
   // dbo.collection('product').drop(function(err, delOk) {
   //   if(err) throw err
   //   if(delOk) console.log('已删除')
   // })
 
+  // 导出（json格式）//bin目录下打开cmd
+  // mongoexport -d 库名 -c 表名 -o 目的的路径+文件名（带后缀）
   })
   

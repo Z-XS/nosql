@@ -1,6 +1,9 @@
 var express = require('express')
 var mongoose = require('mongoose')
 var app = express()
+var bodyParser = require('body-parser'); 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 var MongoClient = require('mongodb').MongoClient
 var url = "mongodb://localhost:27017/"
 
@@ -15,25 +18,27 @@ app.all('*', function(req, res, next) {
     next();
 });
 
-function findcount() {
-    return new Promise((resolve,reject) => {
-        connection.then(db => {
-            var dbo = db.db('manage')
-            dbo.collection('foods').countDocuments().then(count => resolve(count))
-        })
-    })
-}
-var result
-async function Count() {
-    result = await findcount()
-}
+// function findcount() {
+//     return new Promise((resolve,reject) => {
+//         connection.then(db => {
+//             var dbo = db.db('manage')
+//             dbo.collection('foods').countDocuments().then(count => resolve(count))
+//         })
+//     })
+// }
+// var result
+// async function Count() {
+//     result = await findcount()
+// }
 app.get('/getcount',function(req,res) {
-    Count()
-    res.json(result)
+    connection.then(db => {
+        var dbo = db.db('manage')
+        dbo.collection('foods').countDocuments().then(count => res.json(count))
+    })
 })
 
 app.get('/addfoods',function(req,res) {
-    console.log(req)
+    // console.log(req)
     var arr = [req.query]
     res.status(200)
     connection
@@ -110,7 +115,16 @@ app.get('/update',function(req,res) {
     })
 })
 
+app.post('/cookie',function(req,res){
+    console.log(111)
+    console.log(req.body)
+    res.send(true)
+})
 
+app.get('/123',function(req,res){
+    console.log(req.query)
+    res.json(1321212)
+})
 
 
 
