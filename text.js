@@ -36,11 +36,12 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
   // (<) 小于 - $lt
   // (>=) 大于等于 - $gte
   // (<= ) 小于等于 - $lte
-  // const wherestr = {"name":'XD'}
-  // dbo.collection('site').find(wherestr).toArray(function(err,res) {
-  //   if (err) throw err
-  //   console.log(res)
-  // })
+  const wherestr = {"ki":'7889'}
+  dbo.collection('site').find(wherestr).toArray(function(err,res) {
+    if (err) throw err
+    console.log(res.length)
+    console.log(res[0].otherkey)
+  })
   // 更新一条数据
   // const wherestr2 = {name: '小红'}
   // const updatestr = {$set: {pass: '8529637410'}}
@@ -103,9 +104,9 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
   //   console.log(res)
   // })
 
-  dbo.collection('site').aggregate([{$limit:5},{$group: {_id: null,sum:{$sum: "$get"}}}]).toArray(function(err,res){
-    console.log(res)
-  })
+  // dbo.collection('site').aggregate([{$limit:5},{$group: {_id: null,sum:{$sum: "$get"}}}]).toArray(function(err,res){
+  //   console.log(res)
+  // })
   // drop() 方法来删除集合
   // dbo.collection('product').drop(function(err, delOk) {
   //   if(err) throw err

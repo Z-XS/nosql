@@ -115,14 +115,38 @@ app.get('/update',function(req,res) {
     })
 })
 
-app.post('/cookie',function(req,res){
+app.post('/login',function(req,res){
     console.log(111)
     console.log(req.body)
-    res.send(true)
+    var admsg = req.body
+    const wherestr = {username:admsg.username}
+    connection.then(db => {
+        var dbo = db.db('manage')
+        dbo.collection('admin').find(wherestr).toArray(function(err,resultArr) {
+            if (err) throw err
+            if(resultArr.length > 0) {
+                if(resultArr[0].password == admsg.password) {
+                    res.json(true)
+                }else {
+                    res.json(false)
+                }
+            }
+        })
+        // dbo.collection('admin').insertOne(admsg,function(err,result) {
+        //     res.send(true)
+        // })
+    })
 })
 app.post('/cookieLogin',function(req,res){
     console.log(req.body)
     res.json('yes')
+})
+app.post('/message',function(req,res){
+    console.log(req.body)
+    var esc = unescape(req.body.id)
+    esc = esc.split(':')
+    console.log(esc)
+    res.json(esc[0])
 })
 
 app.get('/123',function(req,res){
